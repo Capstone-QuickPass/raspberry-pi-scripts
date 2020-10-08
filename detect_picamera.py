@@ -44,7 +44,7 @@ def get_output_tensor(interpreter, index):
 
 def detect_objects(interpreter, image, threshold, annotator, camera):
   """Returns a list of detection results, each a dictionary of object info."""
-  results = []
+  
 
       
   set_input_tensor(interpreter, image)
@@ -56,7 +56,7 @@ def detect_objects(interpreter, image, threshold, annotator, camera):
   scores = get_output_tensor(interpreter, 2)
   count = int(get_output_tensor(interpreter, 3))
   
-  
+  results = []
   for i in range(count):
     if scores[i] >= threshold and classes[i]==0.0:
       result = {
