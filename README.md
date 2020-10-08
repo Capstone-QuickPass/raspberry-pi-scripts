@@ -1,7 +1,7 @@
 # raspberry-pi-scripts
 
 
-## V 0.0.1
+## Version 0.0.1
 
 Using TensorFlow Lite Object Detection Model to detect the existence of a person.
 #### Functionalities:
