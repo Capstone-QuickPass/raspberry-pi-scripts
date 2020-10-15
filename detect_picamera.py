@@ -20,6 +20,7 @@ import picamera
 
 from PIL import Image
 from tflite_runtime.interpreter import Interpreter
+import requests
 
 width = 1080
 height = 720
