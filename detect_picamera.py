@@ -21,6 +21,7 @@ import picamera
 from PIL import Image
 from tflite_runtime.interpreter import Interpreter
 import requests
+import time
 
 width = 1080
 height = 720
@@ -101,6 +102,15 @@ def main():
         if len(results) == 1:
             camera.capture('person'+str(count)+'.jpeg')
             count += 1
+            t = time.localtime()
+            current_time = time.strftime("%H:%M:%S", t)
+
+            x = requests.post('http://localhost:8080/newPerson', data = {
+                "time": current_time,
+                "score": results[0]['score']
+                } )
+            
+            camera.stop_preview()
         
 
         stream.seek(0)
