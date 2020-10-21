@@ -12,6 +12,8 @@ from __future__ import print_function
 
 import io
 import re
+from gpiozero import LED
+
 
 from annotation import Annotator
 
@@ -79,7 +81,8 @@ def detect_objects(interpreter, image, threshold, annotator, camera):
 
 def main():
   count = 0
-
+  light = LED(12)
+  light.off()
   interpreter = Interpreter('detect.tflite')
   interpreter.allocate_tensors()
   _, input_height, input_width, _ = interpreter.get_input_details()[0]['shape']
@@ -101,7 +104,6 @@ def main():
         annotator.update()
         if len(results) == 1:
             camera.capture('person'+str(count)+'.jpeg')
-            count += 1
             t = time.localtime()
             current_time = time.strftime("%H:%M:%S", t)
 
@@ -109,14 +111,17 @@ def main():
                 "time": current_time,
                 "score": results[0]['score']
                 } )
-            
-            camera.stop_preview()
-        
+            count += 1
+            annotator.clear()
+            light.on()
+            time.sleep(2) 
+            light.off()
 
         stream.seek(0)
         stream.truncate()
 
     finally:
+      light.off()
       camera.stop_preview()
 
 
